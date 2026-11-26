@@ -1,9 +1,9 @@
 import csv, io, pathlib, urllib.request
 import yfinance as yf
 p=pathlib.Path('data');p.mkdir(exist_ok=True)
-for key, ticker in {'US10Y':'DGS10','VIX':'VIXCLS','DXY':'DX-Y.NYB','MOVE':'^MOVE'}.items():
+for key, ticker in {'DFII10':'DFII10','T10YIE':'T10YIE','US10Y':'DGS10','VIX':'VIXCLS','DXY':'DX-Y.NYB','MOVE':'^MOVE'}.items():
     try:
-        if key in ('US10Y','VIX'):
+        if key in ('US10Y','VIX','DFII10','T10YIE'):
             raw=urllib.request.urlopen('https://fred.stlouisfed.org/graph/fredgraph.csv?id='+ticker,timeout=40).read().decode()
             rows=[(d,float(v)) for d,v in list(csv.reader(io.StringIO(raw)))[1:] if v not in ('','.')] 
         else:
