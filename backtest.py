@@ -18,7 +18,7 @@ for ticker in ['BTC-USD','GLD','SPY','QQQ','SMH']:
     for model,w in [('beta',[25,25,5,20,20,5]),('equal',[100/6]*6),('no_redundancy',[30,30,0,20,20,0])]:
         score=parts@np.array(w)/100; sig=pd.DataFrame({'date':h.date,'score':score}); sig['entry']=(sig.score>=55)&(sig.score.shift()<55);sig['exit']=(sig.score<=45)&(sig.score.shift()>45); sig['available']=sig.date+pd.Timedelta(days=4)
         # conservative Tuesday or later open; latest vintage FRED, not point-in-time
-       daily=pd.merge_asof(pd.DataFrame({'date':a.index.astype('datetime64[ns]')}),sig[['available','score']].astype({'available':'datetime64[ns]'}),left_on='date',right_on='available',direction='backward'); daily.index=a.index
+        daily=pd.merge_asof(pd.DataFrame({'date':a.index.astype('datetime64[ns]')}),sig[['available','score']].astype({'available':'datetime64[ns]'}),left_on='date',right_on='available',direction='backward'); daily.index=a.index
         state=0; pos=[]
         for v in daily.score:
             if v>=55:state=1
